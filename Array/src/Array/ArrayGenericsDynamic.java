@@ -176,7 +176,7 @@ public class ArrayGenericsDynamic<E> {
         this.index--;
         data[this.index] = null; // 垃圾回收
 
-        if (this.index == data.length / 2)
+        if (this.index == data.length / 4 && data.length / 2 != 0)
             resize(data.length / 2);
 
         return element;

@@ -84,3 +84,62 @@ find(e)            O(n)
 * 改：已知索引O(1); 位置索引O(n)
 * 查：已知索引O(1); 位置索引O(n)
 ```
+
+## 均摊复杂度和防止复杂度的震荡
+
+resize的复杂度分析：
+
+```
+假设当前capacity = 8,并且每一次添加操作都使用addLast
+
+当进行第九次操作，触发resize
+* 操作 8 + 1 次
+* resize 8 次
+总共进行了17次基本操作
+
+平均，每次addLast操作，进行了两次基本操作
+```
+```
+假设当前capacity = n,进行n + 1次addLast, 触发resize，总共进行2n + 1次基本操作
+```
+```
+平均，每次addList操作，进行2次基本操作
+这样均摊计算，时间复杂度是O(1)!
+```
+```
+在这个例子里，这样均摊计算，比计算最坏情况有意义。
+```
+均摊复杂度：
+
+* addLast的均摊复杂度为O(1)
+* 同理，removeLast操作，均摊复杂度为O(1)
+
+复杂度震荡：
+
+```
+同时分析addLast和removeLast操作：
+
+capacity = n 
+size = n
+
+addLast    -> resize O(n)
+removeLast -> resize O(n)
+addLast    -> resize O(n)
+removeLast -> resize O(n)
+```
+
+出现问题原因：
+
+```
+removeLast时resize过于着急（Eager）
+解决方法：Lazy
+当现有容量是总容量的1/4时，我们将数组缩小1/2
+```
+
+bug:
+
+```
+缩容过程中，data.length有可能等于1，data.length/2有可能等于0；
+
+&& data.length / 2 != 0
+```
