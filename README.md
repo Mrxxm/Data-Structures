@@ -143,3 +143,72 @@ bug:
 
 && data.length / 2 != 0
 ```
+
+## 栈的实现
+
+栈的实现：
+
+Stack<E>
+    
+```
+* void push(E) // 入栈
+* E pop() // 出栈
+* E peek() // 查看栈顶元素       
+* int getSize()
+* boolean isEmpty()
+```
+
+```
+Interface Stack<E>              —implement-->           ArrayStack<E>
+    
+* void push(E) // 入栈
+* E pop() // 出栈
+* E peek() // 查看栈顶元素       
+* int getSize()
+* boolean isEmpty()
+```
+
+* 调用
+
+```
+public static void main(String[] args) {
+    ArrayStack<Integer> stack = new ArrayStack<Integer>();
+
+
+    stack.push(1);
+    stack.push(2);
+    stack.push(3);
+
+
+    System.out.println(stack);
+
+
+    stack.pop();
+
+
+    System.out.println(stack);
+
+
+    System.out.println(stack.peek());
+}
+```
+
+* 结果
+
+```
+Stack: [1, 2, 3] top
+Stack: [1, 2] top
+2
+```
+
+* 栈的复杂度分析
+
+```
+Stack<E>
+    
+* void push(E)         O(1) 均摊
+* E pop()              O(1) 均摊
+* E peek()             O(1)
+* int getSize()        O(1)
+* boolean isEmpty()    O(1)
+```
