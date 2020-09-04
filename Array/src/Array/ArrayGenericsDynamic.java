@@ -2,7 +2,6 @@ package Array;
 
 public class ArrayGenericsDynamic<E> {
 
-    // TODO:类型修改
     private E[] data;
 
     // 最大等于 index = (capacity - 1)
@@ -21,7 +20,6 @@ public class ArrayGenericsDynamic<E> {
      * 默认构造方法
      */
     public ArrayGenericsDynamic() {
-        // TODO:大小修改
         this(10);
     }
 

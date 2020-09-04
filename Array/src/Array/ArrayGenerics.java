@@ -2,7 +2,6 @@ package Array;
 
 public class ArrayGenerics<E> {
 
-    // TODO:类型修改
     private E[] data;
 
     // 最大等于 index = (capacity - 1)
@@ -22,7 +21,6 @@ public class ArrayGenerics<E> {
      * 默认构造方法
      */
     public ArrayGenerics() {
-        // TODO:大小修改
         this(10);
     }
 
