@@ -1,3 +1,5 @@
+package Array;
+
 public class Array {
 
     // TODO:类型修改
@@ -98,7 +100,7 @@ public class Array {
     public void add(int index, int element) {
         // TODO:添加失败处理
         if (index == data.length)
-            throw new IllegalArgumentException("Add failed. Array is full.");
+            throw new IllegalArgumentException("Add failed. Array.Array is full.");
 
         if (index < 0 || index > this.index)
             throw new IllegalArgumentException("Add failed. Require index >= 0 and index <= size.");
@@ -193,7 +195,7 @@ public class Array {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append(String.format("Array: size = %d, capacity = %d\n", index, data.length));
+        result.append(String.format("Array.Array: size = %d, capacity = %d\n", index, data.length));
 
         String ret = "[";
         for (int i = 0; i < index; i++) {

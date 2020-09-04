@@ -1,4 +1,6 @@
-public class ArrayGenerics<E> {
+package Array;
+
+public class ArrayGenericsDynamic<E> {
 
     // TODO:类型修改
     private E[] data;
@@ -10,7 +12,7 @@ public class ArrayGenerics<E> {
      * 构造方法
      * @param capacity 容量
      */
-    public ArrayGenerics(int capacity) {
+    public ArrayGenericsDynamic(int capacity) {
         data = (E[])new Object[capacity];
         index = 0;
     }
@@ -18,9 +20,23 @@ public class ArrayGenerics<E> {
     /**
      * 默认构造方法
      */
-    public ArrayGenerics() {
+    public ArrayGenericsDynamic() {
         // TODO:大小修改
         this(10);
+    }
+
+
+    /**
+     * 动态数组
+     * @param newCapacity
+     */
+    private void resize(int newCapacity) {
+        E[] newData = (E[])new Object[newCapacity];
+
+        for (int i = 0; i < index; i++) {
+            newData[i] = data[i];
+        }
+        data = newData;
     }
 
     /**
@@ -54,7 +70,7 @@ public class ArrayGenerics<E> {
      * @param index
      * @returnE
      */
-     E get(int index) {
+    E get(int index) {
         if (index < 0 || index >= this.index)
             throw new IllegalArgumentException("Get failed. Index is illegal.");
 
@@ -96,12 +112,13 @@ public class ArrayGenerics<E> {
      * @param element
      */
     public void add(int index, E element) {
-        // TODO:添加失败处理
-        if (index == data.length)
-            throw new IllegalArgumentException("Add failed. Array is full.");
 
         if (index < 0 || index > this.index)
             throw new IllegalArgumentException("Add failed. Require index >= 0 and index <= size.");
+
+        // 动态数组
+        if (index == data.length)
+            resize(2 * data.length);
 
         // 索引指到最后一个元素，每一个元素都向后挪一个位置
         for (int i = this.index - 1; i >= index; i--) {
@@ -120,7 +137,7 @@ public class ArrayGenerics<E> {
      */
     public boolean contains(E element) {
         for (int i = 0; i < index; i++) {
-            if (data[i] == element) {
+            if (data[i].equals(element)) {
                 return true;
             }
         }
@@ -134,7 +151,7 @@ public class ArrayGenerics<E> {
      */
     public int find(E element) {
         for (int i = 0; i < index; i++) {
-            if (data[i] == element) {
+            if (data[i].equals(element)) {
                 return i;
             }
         }
@@ -159,6 +176,10 @@ public class ArrayGenerics<E> {
         }
 
         this.index--;
+        data[this.index] = null; // 垃圾回收
+
+        if (this.index == data.length / 2)
+            resize(data.length / 2);
 
         return element;
     }
@@ -193,7 +214,7 @@ public class ArrayGenerics<E> {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append(String.format("Array: size = %d, capacity = %d\n", index, data.length));
+        result.append(String.format("Array.Array: size = %d, capacity = %d\n", index, data.length));
 
         String ret = "[";
         for (int i = 0; i < index; i++) {
