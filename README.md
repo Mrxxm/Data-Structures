@@ -151,14 +151,6 @@ bug:
 Stack<E>
     
 ```
-* void push(E) // 入栈
-* E pop() // 出栈
-* E peek() // 查看栈顶元素       
-* int getSize()
-* boolean isEmpty()
-```
-
-```
 Interface Stack<E>              —implement-->           ArrayStack<E>
     
 * void push(E) // 入栈
@@ -166,39 +158,6 @@ Interface Stack<E>              —implement-->           ArrayStack<E>
 * E peek() // 查看栈顶元素       
 * int getSize()
 * boolean isEmpty()
-```
-
-* 调用
-
-```
-public static void main(String[] args) {
-    ArrayStack<Integer> stack = new ArrayStack<Integer>();
-
-
-    stack.push(1);
-    stack.push(2);
-    stack.push(3);
-
-
-    System.out.println(stack);
-
-
-    stack.pop();
-
-
-    System.out.println(stack);
-
-
-    System.out.println(stack.peek());
-}
-```
-
-* 结果
-
-```
-Stack: [1, 2, 3] top
-Stack: [1, 2] top
-2
 ```
 
 * 栈的复杂度分析
@@ -211,4 +170,25 @@ Stack<E>
 * E peek()             O(1)
 * int getSize()        O(1)
 * boolean isEmpty()    O(1)
+```
+
+## 队列实现
+
+队列 Queue
+
+* 队列也是一种线性结构
+* 相比数组，队列操作也是数组的子集
+* 只能从一端（队尾）添加元素，只能从另一端（队首）取出元素
+* 队列是一种先进先出的数据结构（先到先得）
+* First In First Out（FIFO）
+
+队列实现：
+
+```
+Queue<E>
+    void enqueue(E e)  O(1)均摊
+    E dequeue()        O(n)
+    E getFront()       O(1)
+    int getSize()      O(1)
+    boolean isEmpty()  O(1)
 ```
