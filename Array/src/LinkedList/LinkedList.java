@@ -58,7 +58,7 @@ public class LinkedList<E> {
         add(size, e);
     }
 
-    // 在链表的index(0除外)位置添加新的元素e
+    // 在链表的index(0开始)位置添加新的元素e
     public void add(int index, E e) {
         if (index < 0 || index > size)
             throw new IllegalArgumentException("Add failed. Illegal index .");

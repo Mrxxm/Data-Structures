@@ -44,7 +44,7 @@ public class LinkedListDummy<E> {
         return size == 0;
     }
 
-    // 在链表的index(0除外)位置添加新的元素e
+    // 在链表的index位置添加新的元素e
     public void add(int index, E e) {
         if (index < 0 || index > size)
             throw new IllegalArgumentException("Add failed. Illegal index .");
@@ -62,14 +62,78 @@ public class LinkedListDummy<E> {
         size++;
     }
 
-    // 在链表头添加新的元素e
     public void addFirst(E e) {
         add(0, e);
     }
 
-    // 在链表末尾添加新的元素e
     public void addLast(E e) {
         add(size, e);
+    }
+
+    // 获取链表的第index(0开始)个位置元素
+    public E get(int index) {
+        if (index < 0 || index >= size)
+            throw new IllegalArgumentException("Get failed. Illegal index .");
+
+        Node cur = dummyHead;
+        for (int i = 0; i <= index; i++) {
+            cur = cur.next;
+        }
+
+        return cur.e;
+    }
+
+    public E getFirst() {
+        return get(0);
+    }
+
+    public E getLast() {
+        return get(size - 1);
+    }
+
+    // 更新
+    public void set(int index, E e) {
+        if (index < 0 || index >= size)
+            throw new IllegalArgumentException("Set failed. Illegal index .");
+
+        Node cur = dummyHead;
+        for (int i = 0; i <= index; i++) {
+             cur = cur.next;
+        }
+
+        cur.e = e;
+    }
+
+    // 查找
+    public boolean contains(E e) {
+        Node cur = dummyHead;
+        for (int i = 0; i < size; i++) {
+            cur = cur.next;
+            if (cur.e.equals(e))
+                return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+        res.append(String.format("Linked List : size %d", size) + "\n");
+
+        Node cur = dummyHead;
+
+        for (int i = 0; i < size; i++) {
+            cur = cur.next;
+            res.append(cur.e);
+            if (i != size - 1) {
+                res.append(" -> ");
+            } else {
+                res.append(" -> NULL");
+            }
+        }
+
+        return res.toString();
     }
 
 }
