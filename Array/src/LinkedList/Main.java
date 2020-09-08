@@ -6,10 +6,11 @@ public class Main {
 
         for (int i = 0; i < 10; i++) {
             link.addFirst(i + 1);
+            System.out.println(link);
         }
 
-        link.set(2, 2);
-
+        link.removeLast();
         System.out.println(link);
+        System.out.println(link.get(0));
     }
 }
