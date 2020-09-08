@@ -11,6 +11,9 @@ public class Main {
 
         LoopQueue<Integer> loopQ = new LoopQueue<Integer>(opCount);
         System.out.println("LoopQueue, time: " + testQueue(loopQ, opCount) + " s");
+
+        LinkedListQueue<Integer> linkQ = new LinkedListQueue<Integer>();
+        System.out.println("LinkQueue, time: " + testQueue(linkQ, opCount) + " s");
     }
 
     // 测试使用q运行opCount个enqueue和dequeue操作所需的时间，单位：秒
