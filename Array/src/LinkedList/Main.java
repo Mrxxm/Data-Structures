@@ -11,6 +11,8 @@ public class Main {
 
         link.removeLast();
         System.out.println(link);
+        link.removeFirst();
+        System.out.println(link);
         System.out.println(link.get(0));
     }
 }
