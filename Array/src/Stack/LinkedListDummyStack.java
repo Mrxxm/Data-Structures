@@ -2,11 +2,11 @@ package Stack;
 
 import LinkedList.LinkedListDummy;
 
-public class LinkedListStack<E> implements Stack<E> {
+public class LinkedListDummyStack<E> implements Stack<E> {
 
     private LinkedListDummy<E> list;
 
-    public LinkedListStack() {
+    public LinkedListDummyStack() {
         list = new LinkedListDummy<E>();
     }
 
@@ -45,7 +45,7 @@ public class LinkedListStack<E> implements Stack<E> {
     }
 
     public static void main(String[] args) {
-        LinkedListStack<Integer> stack = new LinkedListStack<Integer>();
+        LinkedListDummyStack<Integer> stack = new LinkedListDummyStack<Integer>();
 
         for (int i = 0; i < 5; i++) {
             stack.push(i);

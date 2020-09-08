@@ -9,7 +9,7 @@ public class Main {
         ArrayStack<Integer> arrS = new ArrayStack<Integer>(opCount);
         System.out.println("ArrayStack, time: " + testStack(arrS, opCount) + " s");
 
-        LinkedListStack<Integer> linkS = new LinkedListStack<Integer>();
+        LinkedListDummyStack<Integer> linkS = new LinkedListDummyStack<Integer>();
         System.out.println("LinkStack, time: " + testStack(linkS, opCount) + " s");
     }
 
