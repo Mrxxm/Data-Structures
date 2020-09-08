@@ -192,3 +192,288 @@ Queue<E>
     int getSize()      O(1)
     boolean isEmpty()  O(1)
 ```
+
+## 循环队列
+
+数组队列产生的问题：dequeue()出队列时间复杂度是O(n),如果是百万级且更大数据，则消耗很大的资源。
+
+解决(循环队列)：引入front，队首指针。入队时，维护tail，出队时，维护front。
+
+队列为空、为满的情况：
+
+* capacity中，需要浪费一个空间
+* (tail + 1) % capacity == front 队列满
+* 2 % 8 = 2
+
+
+
+```
+add ((tail + 1) % capacity != front) 队满判断
+    tail = (tail + 1) % capacity;
+remove (!isEmpty) 队空判断
+    front = (front + 1) % capacity;
+```
+
+## 数组队列和循环队列的比较
+
+数组队列：
+
+```
+ArrayQueue<E>
+    void enqueue(E e)  O(1)均摊
+    E dequeue()        O(n)
+    E getFront()       O(1)
+    int getSize()      O(1)
+    boolean isEmpty()  O(1)
+```
+
+循环队列：
+
+
+```
+LoopQueue<E>
+    void enqueue(E e)  O(1)均摊
+    E dequeue()        O(1)均摊
+    E getFront()       O(1)
+    int getSize()      O(1)
+    boolean isEmpty()  O(1)
+```
+
+十万次数据出队入队耗时结果：
+
+```
+ArrayQueue, time: 4.668743653 s
+LoopQueue, time: 0.012076687 s
+```
+
+
+## 链表
+
+线性数据结构：
+
+* 动态数组
+* 栈
+* 队列
+
+```
+底层都是依托静态数组；
+靠resize解决固定容量问题。
+```
+
+链表：
+
+* 真正的动态数据结构
+* 最简单的动态数据结构
+* 更深入的理解引用（或者指针）   
+* 更深入的理解递归
+* 辅助组成其他数据结构
+
+
+连表 Linked List：
+
+* 数据存储在“节点”（Node）中
+
+
+
+```
+class Node {
+    E e;
+    Node next;
+}
+```
+
+* 优点：真正的动态，不需要处理固定容量的问题
+* 缺点：丧失了随机访问的能力
+
+
+数组和链表的对比：
+
+* 数组最好用于索引有语义的情况。
+* 最大的优点：支持快速查询。
+
+* 链表不适合用于索引有语意的情况。
+* 最大的优点：动态
+
+#### 添加元素
+
+* 在链表头添加元素
+
+```
+node.next = head
+head = node
+```
+
+* 在链表中间添加元素(在索引为2的地方添加元素666)
+
+关键：找到要添加的节点的前一个节点
+特殊情况：头位置是没有前一个节点，需要处理
+
+```
+node.next = prev.next
+prev.next = node
+```
+
+* 代码
+
+```
+// 在链表的index(0除外)位置添加新的元素e
+public void add(int index, E e) {
+    if (index < 0 || index > size)
+        throw new IllegalArgumentException("Add failed. Illegal index .");
+
+
+    if (index == 0) {
+        addFirst(e);
+    } else {
+        Node prev = head;
+        for (int i = 0; i < index - 1; i++) {
+            prev = prev.next;
+        }
+
+
+//            Node node = new Node(e);
+//            node.next = prev.next;
+//            prev.next = node;
+        prev.next = new Node(e, prev.next);
+
+
+        size++;
+    }
+}
+```
+
+问题遗留：设立虚拟的链表头节点，处理index == 0的情况。
+
+#### 设立虚拟头节点
+
+
+* 虚拟头节点
+
+修改点：
+
+```
+#1
+private Node dummyHead;
+
+#2
+public LinkedListDummy() {
+    dummyHead = new Node(null, null);
+    size = 0;
+}
+
+#3
+// 在链表的index(0开始)位置添加新的元素e
+public void add(int index, E e) {
+    if (index < 0 || index > size)
+        throw new IllegalArgumentException("Add failed. Illegal index .");
+
+
+    Node prev = dummyHead;
+    for (int i = 0; i < index; i++) {
+        prev = prev.next;
+    }
+
+
+//        Node node = new Node(e);
+//        node.next = prev.next;
+//        prev.next = node;
+    prev.next = new Node(e, prev.next);
+
+
+    size++;
+}
+```
+
+#### 元素的删除
+
+
+* 删除索引为2位置上的元素
+
+```
+prev.next = delNode.next
+delNode.next = null
+```
+
+
+链表的时间复杂度分析：
+
+* 添加操作O(n)
+
+```
+addLast(e)    O(n)
+addFirst(e)   O(1)
+add(index, e) O(n/2) = O(n)
+```
+
+* 删除操作O(n)
+
+```
+removeLast(e)     O(n)
+removeFirst(e)    O(1)
+remove(index, e)  O(n/2) = O(n)
+```
+
+* 修改、查找O(n)
+
+```
+O(n)
+```
+
+
+只对链表头进行操作：
+
+* 添加O(1)
+* 删除O(1)
+* 查找O(1)   
+
+## 使用链表实现栈
+
+数组栈和链表栈的性能比较：
+
+数组栈：
+
+```
+Stack<E>
+    
+* void push(E)         O(1) 均摊
+* E pop()              O(1) 均摊
+* E peek()             O(1)
+* int getSize()        O(1)
+* boolean isEmpty()    O(1)
+```
+
+链表栈：
+
+```
+Stack<E>
+    
+* void push(E)         O(1) 
+* E pop()              O(1) 
+* E peek()             O(1)
+* int getSize()        O(1)
+* boolean isEmpty()    O(1)
+```
+
+## 使用链表实现队列(带有尾指针的链表)
+
+1.使用链表实现队列，在头部插入还是尾部删除，尾部删除是O(n)；尾部插入头部删除，尾部插入是O(n)；总有一次操作是O(n)的操作。
+
+2.同样的问题，我们在数组实现队列中就遇到，在数组的头部插入或者头部删除也都是O(n)操作，后面就引入了循环队列来解决这个问题。
+
+* 循环队列
+
+3.那么我们如何解决链表的问题：
+
+* 添加尾节点tail
+
+```
+在tail节点添加一个节点是非常容易的，因为tail节点就是我们添加节点时的prev节点。
+在tail节点删除一个节点的复杂度是O(n)，因为我们删除tail节点需要知道tail前一个节点，还是需要循环。
+所以我们将在tail节点，入队。
+在head节点，出队。
+```
+
+代码部分：
+
+1.由于我们对队列链表都是在head端或tail端一侧完成，所以我们就不使用虚拟的头节点了。  
+2.注意点：当链表为空，head和tail都指向空。
