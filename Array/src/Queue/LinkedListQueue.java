@@ -88,7 +88,7 @@ public class LinkedListQueue<E> implements Queue<E> {
 
         Node cur = head;
         while (cur != null) {
-            res.append(cur + "->");
+            res.append(cur + " -> ");
             cur = cur.next;
         }
         res.append("NULL tail");
