@@ -12,25 +12,15 @@ public class Solution2 {
         ListNode dummyHead = new ListNode(-1);
         dummyHead.next = head;
 
-//        ListNode prevNode = dummyHead;
-//        while (prevNode.next != null) {
-//            if (prevNode.next.val == val) {
-//                prevNode.next = prevNode.next.next;
-//            } else {
-//                prevNode = prevNode.next;
-//            }
-//        }
-//
-//        return dummyHead.next;
-
-        while (dummyHead.next != null) {
-            if (dummyHead.next.val == val) {
-                dummyHead.next = dummyHead.next.next;
+        ListNode prevNode = dummyHead;
+        while (prevNode.next != null) {
+            if (prevNode.next.val == val) {
+                prevNode.next = prevNode.next.next;
             } else {
-                dummyHead = dummyHead.next;
+                prevNode = prevNode.next;
             }
         }
 
-        return head;
+        return dummyHead.next;
     }
 }
