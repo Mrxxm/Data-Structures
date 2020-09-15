@@ -1,18 +1,8 @@
 package BinarySearchTree;
 
 public class BST<E extends Comparable<E>> {
-    private class Node {
-        public E e;
-        public Node left, right;
 
-        public Node(E e) {
-            this.e = e;
-            left = null;
-            right = null;
-        }
-    }
-
-    private Node root;
+    public Node root;
     private int size;
 
     public BST() {
@@ -37,8 +27,8 @@ public class BST<E extends Comparable<E>> {
 //            add(root, e);
 //        }
 //    }
-
-    // 方法一
+//
+//    // 方法一
 //    private void add(Node node, E e) {
 //        if (e.equals(node.e)) {
 //            return ;
@@ -61,19 +51,19 @@ public class BST<E extends Comparable<E>> {
 
     // 方法二
     public void add(E e) {
-        add(root, e);
+        root = add(root, e);
     }
 
-    // 方法二
+    // 方法二(node是新开辟的一块内存)
     private Node add(Node node, E e) {
         if (node == null) {
             size++;
             return new Node(e);
         }
 
-        if (e.compareTo(node.e) < 0) {
+        if (e.compareTo((E) node.e) < 0) {
             node.left = add(node.left, e);
-        } else if (e.compareTo(node.e) > 0) {
+        } else if (e.compareTo((E) node.e) > 0) {
             node.right = add(node.right, e);
         }
 
@@ -90,19 +80,28 @@ public class BST<E extends Comparable<E>> {
             return false;
         }
 
-        if (e.compareTo(node.e) == 0) {
+        if (e.compareTo((E) node.e) == 0) {
           return true;
-        } else if (e.compareTo(node.e) < 0) {
+        } else if (e.compareTo((E) node.e) < 0) {
             return contains(node.left, e);
-        } else if (e.compareTo(node.e) > 0) {
+        } else { // e.compareTo(node.e) > 0
             return contains(node.right, e);
         }
     }
 
+    // 前序遍历
+    public void preOrder() {
+        preOrder(root);
+    }
 
+    private void preOrder(Node node) {
+        if (node == null)
+            return ;
 
-
-
+        System.out.println(node.e);
+        preOrder(node.left);
+        preOrder(node.right);
+    }
 
 
 
