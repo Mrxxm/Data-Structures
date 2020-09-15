@@ -477,3 +477,261 @@ Stack<E>
 
 1.由于我们对队列链表都是在head端或tail端一侧完成，所以我们就不使用虚拟的头节点了。  
 2.注意点：当链表为空，head和tail都指向空。
+
+## Leetcode 203 删除链表中元素
+
+* Solution1()
+
+```
+public ListNode removeElements(ListNode head, int val) {
+    // 删除所有相同元素的头节点
+    while (head != null && head.val == val) {
+        ListNode delNode = head;
+        head = head.next;
+        delNode.next = null;
+    }
+
+    if (head == null) {
+        return head;
+    }
+
+    ListNode prevNode = head;
+    while (prevNode.next != null) {
+        if (prevNode.next.val == val) {
+//                ListNode delNode = prevNode.next;
+//                prevNode.next = delNode.next;
+//                delNode.next = null;
+            prevNode.next = prevNode.next.next;
+        } else {
+            prevNode = prevNode.next;
+        }
+
+    }
+
+    return head;
+}
+```
+
+* Solution2(添加虚拟头结点实现)
+
+```
+public ListNode removeElements(ListNode head, int val) {
+    // 初始dummy head
+    ListNode dummyHead = new ListNode(-1);
+    dummyHead.next = head;
+
+    ListNode prevNode = dummyHead;
+    while (prevNode.next != null) {
+        if (prevNode.next.val == val) {
+            prevNode.next = prevNode.next.next;
+        } else {
+            prevNode = prevNode.next;
+        }
+    }
+
+    return dummyHead.next;
+}
+```
+
+* Solution3(递归实现)
+
+```
+public ListNode removeElements(ListNode head, int val) {
+    if (head == null) {
+        return null;
+    }
+//        # 1
+//        ListNode res = removeElements(head.next, val);
+//        if (head.val == val) {
+//            return res;
+//        } else {
+//            head.next = res;
+//            return head;
+//        }
+//        # 2
+//        head.next = removeElements(head.next, val);
+//        if (head.val == val) {
+//            return head.next;
+//        } else {
+//            return head;
+//        }
+    head.next = removeElements(head.next, val);
+    return head.val == val ? head.next : head;
+}
+```
+最后简化成四行代码(牛皮啊！！！)
+
+```
+public ListNode removeElements(ListNode head, int val) {
+    if (head == null) 
+        return null;
+
+    head.next = removeElements(head.next, val);
+    return head.val == val ? head.next : head;
+}
+```
+
+## 非线性数据结构-树结构
+
+为什么要有树结构：
+
+* 树结构本身是一种天然的组织结构
+* 电脑中的文件夹，家谱等
+* 高效
+    
+
+树：
+
+* 二分搜索树（Binary Search Tree）
+* 平衡二叉树：AVL
+* 红黑树
+
+算法对某种数据结构的高效处理：
+
+* 堆
+* 并查集
+* 线段数 [处理线段]
+* Trie（字典树，前缀数）[处理字符串]
+
+
+## 二分搜索树基础
+
+Binary Search Tree.
+
+二叉树：
+
+
+
+* 和链表一样，动态数据结构
+* 二叉树具有唯一根节点
+* 二叉树中每个节点最多有两个孩子
+* 二叉树每个节点最多有一个父亲
+
+```
+class Node {
+    E e;
+    Node left;  // 左孩子
+    Node right; // 右孩子
+}
+```
+
+* 二叉树具有天然的递归结构
+* 每个节点的左子树也是二叉树
+* 每个节点的右子树也是二叉树
+
+
+二分搜索树：
+
+* 二分搜索树是二叉树
+* 二分搜索树的每个节点的值：
+*   大于其左子树的所有节点的值
+*   小于其右子树的所有节点的值
+* 每一棵子树也是二分搜索树
+* 存储的元素必须有可比较性
+
+
+基本实现：
+
+```
+package BinarySearchTree;
+
+
+public class BST<E extends Comparable<E>> {
+    private class Node {
+        public E e;
+        public Node left, right;
+
+
+        public Node(E e) {
+            this.e = e;
+            left = null;
+            right = null;
+        }
+    }
+
+
+    private Node root;
+    private int size;
+
+
+    public BST() {
+        root = null;
+        size = 0;
+    }
+
+
+    public int size() {
+        return size;
+    }
+
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+}
+```
+
+### 二分搜索树添加元素
+
+```
+// 方法二
+public void add(E e) {
+    add(root, e);
+}
+
+
+// 方法二
+private Node add(Node node, E e) {
+    if (node == null) {
+        size++;
+        return new Node(e);
+    }
+
+
+    if (e.compareTo(node.e) < 0) {
+        node.left = add(node.left, e);
+    } else if (e.compareTo(node.e) > 0) {
+        node.right = add(node.right, e);
+    }
+
+
+    return node;
+}
+```
+
+### 二分搜索树的查询元素
+
+```
+// 二分搜索树的查询
+public boolean contains(E e) {
+    return contains(root, e);
+}
+
+
+private Boolean contains(Node node, E e) {
+    if (node == null) {
+        return false;
+    }
+   
+    if (e.compareTo(node.e) == 0) {
+      return true;
+    } else if (e.compareTo(node.e) < 0) {
+        return contains(node.left, e);
+    } else if (e.compareTo(node.e) > 0) {
+        return contains(node.right, e);
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
