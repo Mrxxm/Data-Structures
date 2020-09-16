@@ -1,5 +1,7 @@
 package BinarySearchTree;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 public class BST<E extends Comparable<E>> {
@@ -149,18 +151,32 @@ public class BST<E extends Comparable<E>> {
     }
 
     // 层序遍历
+//    public void levelOrder() {
+//        Queue.LinkedListQueue<Node> queue = new Queue.LinkedListQueue<Node>();
+//        queue.enqueue(root);
+//
+//        while (!queue.isEmpty()) {
+//            Node cur = queue.dequeue();
+//            System.out.println(cur.e);
+//
+//            if (cur.left != null)
+//                queue.enqueue(cur.left);
+//            if (cur.right != null)
+//                queue.enqueue(cur.right);
+//        }
+//    }
     public void levelOrder() {
-        Queue.LinkedListQueue<Node> queue = new Queue.LinkedListQueue<Node>();
-        queue.enqueue(root);
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
 
         while (!queue.isEmpty()) {
-            Node cur = queue.dequeue();
+            Node cur = queue.remove();
             System.out.println(cur.e);
 
             if (cur.left != null)
-                queue.enqueue(cur.left);
+                queue.add(cur.left);
             if (cur.right != null)
-                queue.enqueue(cur.right);
+                queue.add(cur.right);
         }
     }
 
