@@ -81,7 +81,7 @@ public class BST<E extends Comparable<E>> {
         }
 
         if (e.compareTo((E) node.e) == 0) {
-          return true;
+            return true;
         } else if (e.compareTo((E) node.e) < 0) {
             return contains(node.left, e);
         } else { // e.compareTo(node.e) > 0
@@ -96,14 +96,88 @@ public class BST<E extends Comparable<E>> {
 
     private void preOrder(Node node) {
         if (node == null)
-            return ;
+            return;
 
         System.out.println(node.e);
         preOrder(node.left);
         preOrder(node.right);
     }
 
+    // 中序遍历
+    public void inOrder() {
+        inOrder(root);
+    }
 
+    private void inOrder(Node node) {
+        if (node == null)
+            return;
 
+        inOrder(node.left);
+        System.out.println(node.e);
+        inOrder(node.right);
+    }
+
+    // 后序遍历
+    public void backOrder() {
+        backOrder(root);
+    }
+
+    private void backOrder(Node node) {
+        if (node == null)
+            return;
+
+        backOrder(node.left);
+        backOrder(node.right);
+        System.out.println(node.e);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+        generateBSTString(root, 0, res);
+
+        return res.toString();
+    }
+
+    private void generateBSTString(Node node, int depth, StringBuilder res) {
+        if (node == null) {
+            res.append(generateDepthString(depth) + "null\n");
+            return;
+        }
+
+        res.append(generateDepthString(depth) + node.e + "\n");
+        generateBSTString(node.left, depth + 1, res);
+        generateBSTString(node.right, depth + 1, res);
+    }
+
+    private String generateDepthString(int depth) {
+        StringBuilder res = new StringBuilder();
+        for(int i = 0; i < depth; i++)
+            res.append("--");
+
+        return res.toString();
+    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
