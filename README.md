@@ -723,14 +723,146 @@ private Boolean contains(Node node, E e) {
 }
 ```
 
+### 前中后序遍历
+
+前序遍历伪代码：
+
+```
+function traverse(node):
+    if (node == null)
+        return ;
+
+    访问该节点
+    traverse(node.left)
+    traverse(node.right)
+```
+
+前序遍历(先访问根节点，再分别访问左子树节点和右子树节点)[根 左 右]：
+
+* 递归实现
+* 最自然的遍历方式
+* 最常用的遍历方式
+
+```
+// 前序遍历
+public void preOrder() {
+    preOrder(root);
+}
 
 
+private void preOrder(Node node) {
+    if (node == null)
+        return;
 
 
+    System.out.println(node.e);
+    preOrder(node.left);
+    preOrder(node.right);
+}
+```
+
+中序遍历：(先访问左子树节点，再访问根节点和右子树节点)[左 根 右]
+
+* 二分搜索树中序遍历的结果是顺序的
+
+伪代码：
+
+```
+function traverse(node):
+    if (node == null)
+        return ;
+
+    traverse(node.left)
+    访问该节点
+    traverse(node.right)
+```
+
+后序遍历的一个应用：
+
+* 为二分搜索树释放内存
+
+图示：
+
+![](https://img9.doubanio.com/view/photo/l/public/p2620395805.jpg)
 
 
+### 深度优先遍历(非递归)
+
+前序遍历：(前中后都属于深度优先遍历)
+
+* 使用栈的数据结构实现
+
+```
+1.先压入根节点
+2.弹出根节点，先压入右孩子再压入左孩子
+3.弹出左节点，先压入左节点的右孩子再压入左节点的左孩子
+4.弹出左节点的左孩子，叶子节点，无需压入
+5.弹出左节点的右孩子，叶子节点，无需压入
+6.弹出右节点，先压入右节点的右孩子再压入右节点的左孩子
+7.弹出右节点的左孩子，叶子节点，无需压入
+8.弹出右节点的右孩子，叶子节点，无需压入
+9.结束
+```
+
+代码：
+
+```
+// 前序遍历(非递归)
+public void preOrderNR() {
+    Stack<Node> stack = new Stack<>();
+    stack.push(root);
+    while (!stack.isEmpty()) {
+        Node cur = stack.pop();
+        System.out.println(cur.e);
 
 
+        if (cur.right != null)
+            stack.push(cur.right);
+        if (cur.left != null)
+            stack.push(cur.left);
+    }
+}
+```
+
+### 广度优先遍历
+
+层序遍历：(广度优先遍历)
+
+* 使用队列数据结构实现遍历
+
+```
+1.入队根节点
+2.出队根节点，再按从左到右的方式入队
+3.出队左节点，入队再按从左到右的方式入队
+4.出队右节点，入队再按从左到右的方式入队
+5.出队左节点的左孩子，叶子节点，无需入队
+6.出队左节点的右孩子，叶子节点，无需入队
+7.出队右节点的左孩子，叶子节点，无需入队
+8.出队右节点的右孩子，叶子节点，无需入队
+9.结束
+```
+
+代码：
+
+```
+// 层序遍历
+public void levelOrder() {
+    Queue.LinkedListQueue<Node> queue = new Queue.LinkedListQueue<Node>();
+    queue.enqueue(root);
+
+
+    while (!queue.isEmpty()) {
+        Node cur = queue.dequeue();
+        System.out.println(cur.e);
+
+
+        if (cur.left != null)
+            queue.enqueue(cur.left);
+        if (cur.right != null)
+            queue.enqueue(cur.right);
+    }
+}
+```
 
 
 
