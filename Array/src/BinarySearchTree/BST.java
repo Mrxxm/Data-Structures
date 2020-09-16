@@ -148,6 +148,22 @@ public class BST<E extends Comparable<E>> {
         System.out.println(node.e);
     }
 
+    // 层序遍历
+    public void levelOrder() {
+        Queue.LinkedListQueue<Node> queue = new Queue.LinkedListQueue<Node>();
+        queue.enqueue(root);
+
+        while (!queue.isEmpty()) {
+            Node cur = queue.dequeue();
+            System.out.println(cur.e);
+
+            if (cur.left != null)
+                queue.enqueue(cur.left);
+            if (cur.right != null)
+                queue.enqueue(cur.right);
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder();

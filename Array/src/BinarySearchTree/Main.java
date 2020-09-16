@@ -20,6 +20,9 @@ public class Main {
         System.out.println();
         // 后续遍历
         bst.backOrder();
+        System.out.println();
+        // 层序遍历
+        bst.levelOrder();
 
 //        System.out.println(bst);
     }
