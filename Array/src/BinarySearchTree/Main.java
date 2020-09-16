@@ -9,10 +9,16 @@ public class Main {
             bst.add(nums[i]);
         }
 
+        // 前序遍历
         bst.preOrder();
         System.out.println();
+        // 非递归前序遍历
+        bst.preOrderNR();;
+        System.out.println();
+        // 中序遍历
         bst.inOrder();
         System.out.println();
+        // 后续遍历
         bst.backOrder();
 
 //        System.out.println(bst);

@@ -1,5 +1,7 @@
 package BinarySearchTree;
 
+import java.util.Stack;
+
 public class BST<E extends Comparable<E>> {
 
     public Node root;
@@ -54,7 +56,7 @@ public class BST<E extends Comparable<E>> {
         root = add(root, e);
     }
 
-    // 方法二(node是新开辟的一块内存)
+    // 方法二()
     private Node add(Node node, E e) {
         if (node == null) {
             size++;
@@ -101,6 +103,21 @@ public class BST<E extends Comparable<E>> {
         System.out.println(node.e);
         preOrder(node.left);
         preOrder(node.right);
+    }
+
+    // 前序遍历(非递归)
+    public void preOrderNR() {
+        Stack<Node> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            Node cur = stack.pop();
+            System.out.println(cur.e);
+
+            if (cur.right != null)
+                stack.push(cur.right);
+            if (cur.left != null)
+                stack.push(cur.left);
+        }
     }
 
     // 中序遍历
