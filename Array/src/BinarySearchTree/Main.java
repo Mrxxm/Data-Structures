@@ -30,24 +30,35 @@ public class Main {
 //        System.out.println(bst);
 
         // 6-11
-        Random random = new Random();
-        int n = 1000;
+//        Random random = new Random();
+//        int n = 1000;
+//
+//        for (int i = 0; i < n; i++) {
+//            bst.add(random.nextInt(10000));
+//        }
+//
+//        ArrayList<Integer> nums = new ArrayList<>();
+//        while (!bst.isEmpty()) {
+//            nums.add(bst.removeMin());
+//        }
+//
+//        System.out.println(nums);
+//        // 检查数组是否从小到大
+//        for (int i = 1; i < nums.size(); i++)
+//            if (nums.get(i - 1) > nums.get(i))
+//                throw new IllegalArgumentException("Error");
+//
+//        System.out.println("removeMin test completed.");
 
-        for (int i = 0; i < n; i++) {
-            bst.add(random.nextInt(10000));
+        // 6-12
+        int[] nums = {5, 3, 6, 8, 4, 2};
+
+        for (int i = 0; i < nums.length; i++) {
+            bst.add(nums[i]);
         }
 
-        ArrayList<Integer> nums = new ArrayList<>();
-        while (!bst.isEmpty()) {
-            nums.add(bst.removeMin());
-        }
+        bst.remove(3);
 
-        System.out.println(nums);
-        // 检查数组是否从小到大
-        for (int i = 1; i < nums.size(); i++)
-            if (nums.get(i - 1) > nums.get(i))
-                throw new IllegalArgumentException("Error");
-
-        System.out.println("removeMin test completed.");
+        System.out.println(bst);
     }
 }
