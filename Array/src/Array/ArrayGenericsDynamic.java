@@ -217,6 +217,15 @@ public class ArrayGenericsDynamic<E> {
         }
     }
 
+    public void swap(int i, int j) {
+        if (i < 0 || i > this.index || j < 0 || j > this.index)
+            throw new IllegalArgumentException("Index is illegal.");
+
+        E tmp = data[i];
+        data[i] = data[j];
+        data[j] = tmp;
+    }
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
