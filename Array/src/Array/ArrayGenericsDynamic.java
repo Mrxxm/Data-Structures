@@ -23,6 +23,14 @@ public class ArrayGenericsDynamic<E> {
         this(10);
     }
 
+    public ArrayGenericsDynamic(E[] arr) {
+        data = (E[])new Object[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            data[i] = arr[i];
+        }
+        index = arr.length;
+    }
+
 
     /**
      * 动态数组
@@ -88,7 +96,7 @@ public class ArrayGenericsDynamic<E> {
      * @param index
      * @param element
      */
-    void set(int index, E element) {
+    public void set(int index, E element) {
         if (index < 0 || index >= this.index)
             throw new IllegalArgumentException("Get failed. Index is illegal.");
 
