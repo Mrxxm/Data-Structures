@@ -864,6 +864,496 @@ public void levelOrder() {
 }
 ```
 
+## 删除二分搜索树的最大元素和最小元素
+
+寻找二分搜索树中最小元素
+
+```
+// 寻找二分搜索树的最小元素
+public E minimum() {
+    if (size == 0)
+        throw new IllegalArgumentException("BST is empty");
+
+
+    return (E)minimum(root).e;
+}
+
+
+// 返回以node为根的二分搜索树的最小值所在的节点
+private Node minimum(Node node) {
+    if (node.left == null)
+        return node;
+
+
+    return minimum(node.left);
+}
+```
+
+删除最小元素
+
+```
+// 从二分搜索树种删除最小值所在的节点，返回最小值
+public E removeMin() {
+    E ret = minimum();
+
+
+    // 删除处理
+    root = removeMin(root);
+
+
+    return ret;
+}
+
+
+// 删除掉以node为根的二分搜索树中的最小节点
+// 返回删除节点后新的二分搜索树的根
+private Node removeMin(Node node) {
+
+
+    // 递归到底的情况
+    if (node.left == null) {
+        Node rightNode = node.right;
+        node.right = null;
+        size--;
+
+
+        return rightNode;
+    }
+
+
+    node.left = removeMin(node.left);
+
+
+    return node;
+}
+```
+
+测试：
+
+```
+// 6-11
+Random random = new Random();
+int n = 1000;
+
+
+for (int i = 0; i < n; i++) {
+    bst.add(random.nextInt(10000));
+}
+
+
+ArrayList<Integer> nums = new ArrayList<>();
+while (!bst.isEmpty()) {
+    nums.add(bst.removeMin());
+}
+
+
+System.out.println(nums);
+// 检查数组是否从小到大
+for (int i = 1; i < nums.size(); i++)
+    if (nums.get(i - 1) > nums.get(i))
+        throw new IllegalArgumentException("Error");
+    
+System.out.println("removeMin test completed.");    
+```
+
+输出：
+
+```
+[3, 10, 25, 33, 46, 64, 65, 82, 86, 92, 97, 98, 124, 145, 151 ...
+```
+
+## 删除二分搜索树的任意元素
+
+删除左右孩子都有的节点：
+
+* 待删除节点d
+* s = min( d->right )
+* s 是 d的后继
+* s->right = delMin(d->right)
+* s->left = d->left
+* 删除d，s是新的子树的根
+
+代码：
+
+```
+// 删除已node为根的二分搜索树中值为e的节点，递归算法
+// 返回删除节点后新的二分搜索树的根
+private Node remove(Node node, E e) {
+    if (node == null) {
+        return null;
+    }
+
+
+    if (e.compareTo((E) node.e) < 0) {
+        node.left = remove(node.left, e);
+        return node;
+    } else if (e.compareTo((E) node.e) > 0) {
+        node.right = remove(node.right, e);
+        return node;
+    } else { // e == node.e
+        // 待删除节点左子树为空的情况
+        if (node.left == null) {
+            Node rightNode = node.right;
+            node.right = null;
+            size--;
+
+
+            return rightNode;
+        }
+        // 待删除节点右子树为空的情况
+        if (node.right == null) {
+            Node leftNode = node.left;
+            node.left = null;
+            size--;
+
+
+            return leftNode;
+        }
+        // 待删除节点左右子树均不为空的情况
+        // 找到比待删除节点大的最小节点，即待删除节点右子树的最小节点
+        // 用这个节点顶替待删除节点的位置
+        Node successor = minimum(node.right);
+        successor.right = removeMin(node.right);
+        successor.left = node.left;
+
+
+        node.left = node.right = null;
+
+
+        return successor;
+    }
+}
+```
+
+## 集合基础
+
+集合和映射 Set and Map
+
+集合：
+
+* 回忆上一小节实现的二分搜索树
+* 不能盛放重复元素
+* 非常好的实现“集合”的底层数据结构
+
+```
+public interface Set<E> {
+    void add(E e); // 不能添加重复元素
+    void remove(E e);
+    boolean contains(E e);
+    int getSize();
+    boolean isEmpty();
+}
+```
+
+应用：
+
+* 客户统计
+* 词汇量统计
+
+## 集合类的复杂度分析
+
+
+测试二分搜索树实现的集合、链表实现的集合：
+
+```
+public class Main {
+    public static void main(String[] args) {
+        System.out.println(testSet(new BSTSet<Integer>()));
+        System.out.println(testSet(new LinkedListSet<Integer>()));
+    }
+
+
+    private static double testSet(Set<Integer> set) {
+        long startTime = System.nanoTime();
+
+
+        Random random = new Random();
+
+
+        int n = 100000;
+
+
+        for (int i = 0; i < n; i++) {
+            set.add(random.nextInt(10000));
+        }
+
+
+        long endTime = System.nanoTime();
+        return (endTime - startTime) / 1000000000.00;
+    }
+}
+```
+
+结果：
+
+```
+0.15384551     0.071143627   0.116433828
+3.53042609     3.6588218     3.774737535
+```
+
+集合复杂度分析：
+
+
+```
+                        LinkedListSet                     BSTSet BSTSet平均(满二叉树) BSTSet最差
+增 add                  O(n)                              O(h)   O(logn)             O(n)
+
+查 contains             O(n)                              O(h)   O(logn)             O(n)
+
+删 remove               O(n)                              O(h)   O(logn)             O(n)
+```
+
+h和n之间的关系：
+
+```
+0层： 1
+1层： 2
+2层： 4
+3层： 8
+···
+h-1层： 2^(h-1)
+```
+
+h层，一共有多少个节点？
+
+```
+2^0 + 2^1 + 2^2 + 2^3 + … + 2^h-1
+```
+
+
+h和n之间的关系：
+
+```
+h = ··· = O(logn)
+```
+
+
+时间复杂度logn和n的差距：
+
+···
+
+二分搜索树最坏的情况：
+
+* 二分搜索树可能退化成链表
+
+* h = n
+
+## 804.唯一摩尔斯密码词
+
+```
+public int uniqueMorseRepresentations(String[] words) {
+    String[] codes = {".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."};
+
+
+    TreeSet<String> set = new TreeSet<>();
+
+
+    for (String word: words) {
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < word.length(); i++) {
+            res.append(codes[word.charAt(i) - 'a']);
+        }
+        set.add(res.toString());
+    }
+
+
+    return set.size();
+}
+```
+
+## 映射基础
+
+Map，映射，字典
+
+高中所学的函数：
+
+* 定义域中的一个值，总会在值域中找到对应关系
+
+
+
+映射：
+
+* 存储（键，值）数据对的数据结构（Key，Value）
+* 根据键（Key），寻找值（Value）
+* 非常容易使用链表或者二分搜索树实现
+
+二分搜索树、链表实现的集合：
+
+```
+class Node {  
+    E e;
+    Node left;
+    Node right;
+}
+```
+
+```
+class Node {
+    E e;
+    Node next;
+}
+```
+
+二分搜索树、链表实现的映射：
+
+```
+class Node {  
+    K key;
+    V Value;
+    Node left;
+    Node right;
+}
+```
+
+```
+class Node {
+    K key;
+    V Value;
+    Node next;
+}
+```
+
+接口：
+
+```
+public interface Map<K, V> {
+    void add(K key, V value);
+    V remove(K key);
+    boolean contains(K key);
+    int getSize();
+    boolean isEmpty();
+    V get(K key);
+    void set(K key, V value);
+}
+```
+
+## 映射的复杂度分析
+
+词频统计。
+
+```
+基于二分搜索树的映射执行时间是：0.7403 s
+基于链表的映射执行时间是：32.2726
+```
+
+映射的时间复杂度分析：
+
+```
+                 LinkedListMap               BSTMap     BSTMap平均 BSTMap最差(后续引入平衡二叉树解决)
+add              O(n)                        O(h)       O(logn)   O(n)
+
+remove           O(n)                        O(h)       O(logn)   O(n)
+
+set              O(n)                        O(h)       O(logn)   O(n)
+
+get              O(n)                        O(h)       O(logn)   O(n)
+
+contains         O(n)                        O(h)       O(logn)   O(n)
+
+```
+
+有序映射和无序映射：
+
+* 有序映射汇总的键具有顺序性  <- 基于搜索树的实现
+* 无序映射中的键没有顺序性      <- 基于哈希表实现
+
+多重映射：
+
+* 多重映射中的键可以重复
+
+
+
+## Leetcode
+
+349.两个数组的交集
+350.两个数组的交集
+
+## 优先队列
+
+堆和优先队列。
+
+什么是优先队列：
+
+* 普通队列：先进先出，后进后出
+* 优先队列：出队顺序和入队顺序无关，和优先级相关
+
+应用：
+
+* 操作系统中任务的调度(动态选择优先级最高的任务执行)
+* 游戏中自动打怪
+
+```
+public interface Queue<E> {            <————      PriortyQueue<E>
+    void enqueue(E e);                 implement
+    E dequeue();
+    E getFront();
+    int getSize();                                可以使用不同的底层实现
+    boolean isEmpty();
+}
+```
+
+底层实现分析：
+
+```
+                入队              出队(拿出最大元素)
+普通线性结构      O(1)              O(n)
+顺序线性结构      O(n)              O(1)
+    堆          O(logn)           O(logn)
+
+```
+
+## 堆的基础结构
+
+二叉堆(Binary Heap)
+
+
+
+* 二叉堆是一棵完全二叉树
+
+
+* 完全二叉树：把元素顺序按层从左到右排列成树的形状
+* 堆中某个节点的值总是不大于其父节点的值(最大堆：相应的可以定义最小堆)
+
+最大堆：
+
+
+
+用数组存储二叉堆：
+
+```
+parent(i) = i/2
+
+left child (i) = 2 * i
+right child (i) = 2 * i + 1
+```
+
+数组0位置不置空作为存储空间：
+
+```
+parent(i) = (i - 1)/2
+
+left child (i) = 2 * i + 1
+right child (i) = 2 * i + 2
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
