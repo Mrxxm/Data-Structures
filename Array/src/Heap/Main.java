@@ -14,7 +14,6 @@ public class Main {
 
         int[] arr = new int[n];
         for (int i = 0; i < n; i++) {
-            // 堆排序
             arr[i] = maxHeap.extractMax();
         }
         for (int i = 1; i < n; i++) {
