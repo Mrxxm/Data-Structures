@@ -1,9 +1,9 @@
 package Heap;
 
-public class PriorityQueue<E extends Comparable<E>> implements Queue<E> {
+public class PriorityQueueMax<E extends Comparable<E>> implements Queue<E> {
     private MaxHeap<E> maxHeap;
 
-    public PriorityQueue() {
+    public PriorityQueueMax() {
         maxHeap = new MaxHeap<>();
     }
 
