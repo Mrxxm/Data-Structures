@@ -69,7 +69,7 @@ public class MinHeap<E extends Comparable<E>> {
     }
 
     // 取出堆中最大元素
-    public E extractMax() {
+    public E extractMin() {
         E ret = findMin();
 
         data.swap(0, data.getSize() - 1);
@@ -119,7 +119,7 @@ public class MinHeap<E extends Comparable<E>> {
         int[] arr = new int[n];
         for (int i = 0; i < n; i++) {
             // 堆排序
-            arr[i] = minHeap.extractMax();
+            arr[i] = minHeap.extractMin();
         }
         for (int i = 1; i < n; i++) {
             if (arr[i - 1] > arr[i]) {
