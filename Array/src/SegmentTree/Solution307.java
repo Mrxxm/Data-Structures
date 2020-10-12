@@ -16,6 +16,7 @@ public class Solution307 {
             sum[i] = sum[i - 1] + nums[i - 1];
     }
 
+    // O(n)复杂度
     public void update(int index ,int val) {
         data[index] = val;
         for (int i = index + 1; i < sum.length; i ++)
