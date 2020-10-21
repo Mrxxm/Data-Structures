@@ -1,14 +1,16 @@
 package UnionFind;
 
-public class UnionFind2 implements UF{
-
+public class UnionFind4 implements UF{
     private int[] parent;
+    private int[] rank; // rank[i]表示以i为根的集合中所表示树的层数
 
-    public UnionFind2(int size) {
+    public UnionFind4(int size) {
         parent = new int[size];
-
-        for (int i = 0; i < size; i++)
+        rank = new int[size];
+        for (int i = 0; i < size; i++) {
             parent[i] = i;
+            rank[i] = 1;
+        }
     }
 
     @Override
@@ -42,6 +44,14 @@ public class UnionFind2 implements UF{
         if (pRoot == qRoot) {
             return ;
         }
-        parent[pRoot] = qRoot;
+        if (rank[pRoot] < rank[qRoot]) {
+            parent[pRoot] = qRoot;
+        } else if (rank[pRoot] > rank[qRoot]) {
+            parent[qRoot] = pRoot;
+        } else {
+            parent[qRoot] = pRoot;
+            rank[pRoot] += 1;
+        }
+
     }
 }

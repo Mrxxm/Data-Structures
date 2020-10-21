@@ -1,14 +1,16 @@
 package UnionFind;
 
-public class UnionFind2 implements UF{
-
+public class UnionFind3 implements UF{
     private int[] parent;
+    private int[] sz; // sz[i]表示以i为根的集合中元素个数
 
-    public UnionFind2(int size) {
+    public UnionFind3(int size) {
         parent = new int[size];
-
-        for (int i = 0; i < size; i++)
+        sz = new int[size];
+        for (int i = 0; i < size; i++) {
             parent[i] = i;
+            sz[i] = 1;
+        }
     }
 
     @Override
@@ -42,6 +44,13 @@ public class UnionFind2 implements UF{
         if (pRoot == qRoot) {
             return ;
         }
-        parent[pRoot] = qRoot;
+        if (sz[pRoot] < sz[qRoot]) {
+            parent[pRoot] = qRoot;
+            sz[qRoot] += sz[pRoot];
+        } else {
+            parent[qRoot] = pRoot;
+            sz[pRoot] += sz[qRoot];
+        }
+
     }
 }
