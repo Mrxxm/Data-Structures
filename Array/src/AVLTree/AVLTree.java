@@ -69,6 +69,20 @@ public class AVLTree<K extends Comparable<K>, V> {
         inOrder(node.right, keys);
     }
 
+    public boolean isBalanced() {
+        return isBalanced(root);
+    }
+
+    private boolean isBalanced(Node node) {
+        if (node == null)
+            return true;
+        int balanceFactor = getBalanceFactor(node);
+        if (Math.abs(balanceFactor) > 1)
+            return false;
+        return isBalanced(node.left) && isBalanced(node.right);
+    }
+
+
     public void add(K key, V value) {
         root = add(root, key, value);
     }
