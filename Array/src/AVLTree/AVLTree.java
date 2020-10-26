@@ -139,7 +139,7 @@ public class AVLTree<K extends Comparable<K>, V> {
         // 计算平衡因子
         int balanceFactor = getBalanceFactor(node);
         if (Math.abs(balanceFactor) > 1)
-            System.out.println("unbalanced :" + balanceFactor);
+//            System.out.println("unbalanced :" + balanceFactor);
 
         // 平衡维护
         // LL
